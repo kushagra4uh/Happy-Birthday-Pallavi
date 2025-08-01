@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(180deg, #101d3c 0%, #1a223f 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #f8f8ff;
+            position: relative;
+        }
+
+        /* Sparkles overlay */
+        .sparkles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .sparkle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5; /* changed from 0.7 to 0.5 */
+            animation: sparkleTwinkle 2s infinite alternate;
+        }
+        @keyframes sparkleTwinkle {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        @keyframes gradientMove {
+            0%,100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5); /* changed from 0.8 to 0.5 */
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #45b7d1);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+        .hero-title::after {
+            content: "✨";
+            position: absolute;
+            right: -2rem;
+            top: 0.2em;
+            font-size: 2rem;
+            animation: sparkle 1.5s infinite alternate;
+            pointer-events: none;
+        }
+        @keyframes sparkle {
+            0% { opacity: 0.2; transform: scale(1) rotate(0deg);}
+            50% { opacity: 1; transform: scale(1.3) rotate(20deg);}
+            100% { opacity: 0.2; transform: scale(1) rotate(0deg);}
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 3D Image Gallery */
+        .image-gallery {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .image-cube {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3d 10s linear infinite;
+            margin: 1rem;
+        }
+
+        @keyframes rotate3d {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            25% { transform: rotateX(90deg) rotateY(90deg); }
+            50% { transform: rotateX(180deg) rotateY(180deg); }
+            75% { transform: rotateX(270deg) rotateY(270deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .cube-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .cube-face:hover img {
+            transform: scale(1.1);
+        }
+
+        .front { transform: rotateY(0deg) translateZ(100px); }
+        .back { transform: rotateY(180deg) translateZ(100px); }
+        .right { transform: rotateY(90deg) translateZ(100px); }
+        .left { transform: rotateY(-90deg) translateZ(100px); }
+        .top { transform: rotateX(90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        /* Floating Hearts */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 2rem;
+            animation: floatHeart 4s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+        }
+
+        /* Wish Section */
+        .wish-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .wish-text {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInScale 1s ease-out 1s forwards;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .wish-message {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #34495e;
+            text-align: center;
+            font-style: italic;
+            max-height: 5.5em; /* ~3 lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            padding: 0 0.5rem;
+        }
+
+        /* Celebration Button */
+        .celebration-btn {
+            background: linear-gradient(45deg, #ffb347, #ff6f91);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #22223b;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 24px #ffb34733;
+        }
+
+        .celebration-btn:hover {
+            background: linear-gradient(45deg, #ff6f91, #ffb347);
+            color: #fff;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: -10px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Photo Frame Effect */
+        .photo-frame {
+            width: 300px;
+            height: 400px;
+            margin: 2rem;
+            position: relative;
+            transform: rotate(-5deg);
+            transition: all 0.3s ease;
+            animation: photoFloat 6s ease-in-out infinite;
+        }
+
+        .photo-frame:nth-child(even) {
+            transform: rotate(5deg);
+            animation-delay: -3s;
+        }
+
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+        }
+
+        @keyframes photoFloat {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(-3deg); }
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 8px solid rgba(255, 255, 255, 0.9);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .image-cube {
+                width: 150px;
+                height: 150px;
+                margin: 0.5rem;
+            }
+
+            .cube-face {
+                width: 150px;
+                height: 150px;
+            }
+
+            .front { transform: rotateY(0deg) translateZ(75px); }
+            .back { transform: rotateY(180deg) translateZ(75px); }
+            .right { transform: rotateY(90deg) translateZ(75px); }
+            .left { transform: rotateY(-90deg) translateZ(75px); }
+            .top { transform: rotateX(90deg) translateZ(75px); }
+            .bottom { transform: rotateX(-90deg) translateZ(75px); }
+
+            .photo-frame {
+                width: 250px;
+                height: 300px;
+                margin: 1rem;
+            }
+
+            .wish-section {
+                margin: 1rem;
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2rem; }
+            .number-two { font-size: 3rem; }
+            .wish-section, .memory-cards, .flip-cards-section { padding: 1rem 0.2rem; margin: 0.5rem; }
+            .memory-card { padding: 1rem; }
+            .photo-frame { width: 120px; height: 150px; margin: 0.5rem; }
+            .flip-card { width: 90px; height: 120px; }
+            .flip-cards-container { gap: 0.2rem; }
+            .wish-message { font-size: 0.9rem; }
+        }
+
+        /* UNO Cards Animation */
+        .uno-cards {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .uno-card {
+            position: absolute;
+            width: 120px;
+            height: 200px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: floatCard 8s ease-in-out infinite;
+        }
+
+        .uno-card.red { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
+        .uno-card.blue { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+        .uno-card.yellow { background: linear-gradient(135deg, #f1c40f, #f39c12); color: #333; }
+        .uno-card.green { background: linear-gradient(135deg, #27ae60, #229954); color: white; }
+        .uno-card.wild { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; }
+
+        @keyframes floatCard {
+            0%, 100% { 
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) rotate(15deg);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(-10vh) rotate(-15deg);
+            }
+        }
+
+        /* Memory Cards Section */
+        .memory-cards {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .memory-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideInUp 1s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .memory-card {
+            animation: popIn 1s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(40px);}
+            80% { opacity: 1; transform: scale(1.05) translateY(-6px);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
+        }
+
+        .memory-card:nth-child(1) { animation-delay: 0.2s; }
+        .memory-card:nth-child(2) { animation-delay: 0.4s; }
+        .memory-card:nth-child(3) { animation-delay: 0.6s; }
+        .memory-card:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .memory-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .memory-card:hover::before {
+            left: 100%;
+        }
+
+        .memory-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd93d;
+        }
+
+        .memory-card p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .memory-card .emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* UNO Flip Cards Section */
+        .flip-cards-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .flip-cards-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #e74c3c, #3498db, #f1c40f, #27ae60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow 3s ease-in-out infinite;
+        }
+
+        .flip-cards-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: stretch;
+            gap: 1rem;
+            max-width: 100vw;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #ffb347 #22223b;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .flip-cards-container::-webkit-scrollbar {
+            height: 8px;
+            background: #764ba2;
+        }
+        .flip-cards-container::-webkit-scrollbar-thumb {
+            background: #ffd93d;
+            border-radius: 4px;
+        }
+
+        .flip-card {
+            width: 300px;
+            height: 450px;
+            margin: 1rem;
+            cursor: pointer;
+            perspective: 1000px;
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+
+        @media (max-width: 900px) {
+            .flip-card {
+                width: 220px !important;
+                height: 350px !important;
+            }
+        }
+        @media (max-width: 600px) {
+            .flip-cards-container {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 1.2rem !important;
+            }
+            .flip-card {
+                width: 220px !important;
+                height: 350px !important;
+                max-width: 98vw;
+            }
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 4px solid #ffb347;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-card-front img, .flip-card-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Responsive UNO cards */
+        @media (max-width: 900px) {
+            .flip-card { width: 300px; height: 450px; }
+        }
+        @media (max-width: 600px) {
+            .flip-cards-container { gap: 0.5rem; }
+            .flip-card { width: 300px; height: 450px; }
+        }
+
+        /* UNO Card Styles */
+        .uno-card-front {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .uno-card-front.red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .uno-card-front.blue {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .uno-card-front.yellow {
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: #333;
+        }
+
+        .uno-card-front.green {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+
+        .uno-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .uno-number {
+            font-size: 6rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .uno-symbol {
+            font-size: 4rem;
+            margin-top: 1rem;
+        }
+
+        /* Back card content */
+        .wish-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wish-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .wish-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .wish-message {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #34495e;
+            text-align: center;
+            font-style: italic;
+            max-height: 5.5em; /* ~3 lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            padding: 0 0.5rem;
+        }
+
+        /* Flip instruction */
+        .flip-instruction {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        /* Mobile Responsive for flip cards */
+        @media (max-width: 768px) {
+            .flip-card {
+                width: 250px;
+                height: 350px;
+            }
+            
+            .flip-cards-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .uno-number {
+                font-size: 4rem;
+            }
+            
+            .wish-message {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2rem; }
+            .number-two { font-size: 3rem; }
+            .wish-section, .memory-cards, .flip-cards-section { padding: 1rem 0.2rem; margin: 0.5rem; }
+            .memory-card { padding: 1rem; }
+            .photo-frame { width: 120px; height: 150px; margin: 0.5rem; }
+            .flip-card { width: 90px; height: 120px; }
+            .flip-cards-container { gap: 0.2rem; }
+            .wish-message { font-size: 0.9rem; }
+        }
+        .number-two {
+            font-size: 8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            animation: bounce 2s ease-in-out infinite;
+            margin: 2rem 0;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+        .glow-border {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #45b7d1);
+            border-radius: inherit;
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .confetti-banner {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd93d;
+            background: rgba(255,255,255,0.07);
+            border-radius: 30px;
+            padding: 0.5rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 12px #ffd93d33;
+            animation: bannerPop 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+        @keyframes bannerPop {
+            0% { opacity: 0; transform: scale(0.7);}
+            80% { opacity: 1; transform: scale(1.1);}
+            100% { opacity: 1; transform: scale(1);}
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkles" id="sparkles"></div>
+    <!-- UNO Cards Animation -->
+    <div class="uno-cards" id="unoCards"></div>
+    
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Floating Hearts -->
+    <div class="hearts" id="hearts"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Happy Birthday Pallavi...🎉</h1>
+        <div class="number-two">2</div>
+        <p class="hero-subtitle">The most amazing UNO champion and incredible soul! ✨</p>
+    </section>
+
+    <!-- UNO Flip Cards Section -->
+    <section class="flip-cards-section">
+        <h2 class="flip-cards-title">Special Birthday Wishes 🃏</h2>
+        <div class="flip-cards-container">
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img class="uno-img-front" src="images\UNO Cover.jpg" alt="UNO Front">
+                    </div>
+                    <div class="flip-card-back">
+                        <img class="uno-img-back" src="images\UNO Skip.jpg" alt="UNO Back">
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img class="uno-img-front" src="images\UNO Cover.jpg" alt="UNO Front">
+                    </div>
+                    <div class="flip-card-back">
+                        <img class="uno-img-back" src="images\UNO 9.jpg" alt="UNO Back">
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img class="uno-img-front" src="images\UNO Cover.jpg" alt="UNO Front">
+                    </div>
+                    <div class="flip-card-back">
+                        <img class="uno-img-back" src="images\UNO +2.jpg" alt="UNO Back">
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img class="uno-img-front" src="images\UNO Cover.jpg" alt="UNO Front">
+                    </div>
+                    <div class="flip-card-back">
+                        <img class="uno-img-back" src="images\UNO +4.jpg" alt="UNO Back">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="memory-cards">
+        <h2 class="memory-title">Our Precious Memories ✨</h2>
+        <div class="memory-grid">
+            <div class="memory-card">
+                <span class="emoji">🃏</span>
+                <h3>UNO Champions</h3>
+                <p>From epic battles to those "Draw Four" moments that made us laugh until our stomachs hurt! Every game with you is a victory in friendship.</p>
+            </div>
+            <div class="memory-card">
+                <span class="emoji">💫</span>
+                <h3>Two Years Strong</h3>
+                <p>Two years of pure friendship magic! No pictures needed when every moment is perfectly captured in our hearts and memories.</p>
+            </div>
+            <div class="memory-card">
+                <span class="emoji">🌟</span>
+                <h3>Special Bond</h3>
+                <p>From sudden Gol Gappe cravings to COC raids, from unstoppable Laugh attacks to long Calls! Every moment with you is a memory worth keeping.</p>
+            </div>
+            <div class="memory-card">
+                <span class="emoji">🎭</span>
+                <h3>Perfect Nickname</h3>
+                <p>"2" - because you're my second half in friendship, the perfect player two in this game of life, and twice as amazing as anyone else!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Image Gallery -->
+    <section class="image-gallery">
+        <div class="image-cube">
+            <div class="cube-face front">
+                <img src="images\1.jpg" alt="Memory 1">
+            </div>
+            <div class="cube-face back">
+                <img src="images\2.jpg" alt="Memory 2">
+            </div>
+            <div class="cube-face right">
+                <img src="images\3.jpg" alt="Memory 3">
+            </div>
+            <div class="cube-face left">
+                <img src="images\4.jpg" alt="Memory 4">
+            </div>
+            <div class="cube-face top">
+                <img src="images\8.jpg" alt="Memory 5">
+            </div>
+            <div class="cube-face bottom">
+                <img src="images\9.jpg" alt="Memory 6">
+            </div>
+        </div>
+
+        <div class="image-cube" style="animation-delay: -2s;">
+            <div class="cube-face front">
+                <img src="images\3.jpg" alt="Memory 7">
+            </div>
+            <div class="cube-face back">
+                <img src="images\4.jpg" alt="Memory 8">
+            </div>
+            <div class="cube-face right">
+                <img src="images\1.jpg" alt="Memory 9">
+            </div>
+            <div class="cube-face left">
+                <img src="images\8.jpg" alt="Memory 10">
+            </div>
+            <div class="cube-face top">
+                <img src="images\9.jpg" alt="Memory 11">
+            </div>
+            <div class="cube-face bottom">
+                <img src="images\2.jpg" alt="Memory 12">
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Frames Section -->
+    <section class="image-gallery">
+        <div class="photo-frame glow-border">
+            <img src="images\5.jpg" alt="Special Memory">
+        </div>
+        <div class="photo-frame glow-border">
+            <img src="images\6.jpg" alt="Beautiful Moment">
+        </div>
+        <div class="photo-frame glow-border">
+            <img src="images\7.jpg" alt="Amazing Time">
+        </div>
+    </section>
+
+    <!-- Wish Section -->
+    <section class="wish-section">
+        <p class="wish-text">
+            Dear 2, 🎂<br><br>
+            Two years of friendship, countless UNO games, those Video calls and endless laughter! 
+            Even though we don't have pictures together, we have something much more precious - 
+            memories that live in our hearts forever. 💖<br><br>
+            
+            From all those "Draw Four" moments to our epic UNO battles, 
+            <br>you've made every game (and every day) so much brighter! 🌈<br><br>
+            
+            May this new year bring you all the Wild Cards life has to offer, 
+            <br>but never a moment where you have to say "UNO" alone! 
+            <br>You deserve all the happiness in the world! 🌟<br><br>
+            
+            InJoy your special day to the fullest, 2…
+
+            Maybe I’m the last one to wish you today. Not because I forgot,
+            but because I remembered the whole week, whole day, every hour, every minute…
+            Just didn’t want to steal those first special midnight moments
+            with your family, your close friends and loved ones. 🥹<br><br>
+
+            I wanted to be the last one to wish in your happiest days…
+            <br>and the First one standing with you in your Darkest ones. 💛 <br><br>
+
+            No matter how many +4s you throw at me, or how many Gol Gappe you steal from my plate.
+            you’ll still find me right there… in every Laugh, every Fight, every Win, every Loss and ofcourse every “UNO!”. 🃏✨
+        </p>
+        <button class="celebration-btn" onclick="redirectToCelebrate()">
+            🃏 Let's Celebrate your Birthday! 🎊
+        </button>
+    </section>
+    <script>
+        function redirectToCelebrate() {
+            window.location.href = 'celebrate.html';
+        }
+    </script>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 10 + 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Flip card functionality
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+            
+            // Add a little shake effect when flipping
+            card.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                card.style.animation = '';
+            }, 500);
+        }
+
+        // Add shake keyframes
+        const shakeKeyframes = `
+            @keyframes shake {
+                0%, 100% { transform: rotateY(0deg); }
+                25% { transform: rotateY(5deg); }
+                75% { transform: rotateY(-5deg); }
+            }
+        `;
+        
+        // Create floating UNO cards
+        function createUnoCards() {
+            const unoCards = document.getElementById('unoCards');
+            const cardTypes = [
+                { color: 'red', text: '2' },
+                { color: 'blue', text: 'UNO' },
+                { color: 'yellow', text: '♥' },
+                { color: 'green', text: '★' },
+                { color: 'wild', text: 'WILD' },
+                { color: 'red', text: 'SKIP' },
+                { color: 'blue', text: '+2' },
+                { color: 'yellow', text: 'REV' }
+            ];
+
+            setInterval(() => {
+                const card = document.createElement('div');
+                const cardType = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+                card.className = `uno-card ${cardType.color}`;
+                card.textContent = cardType.text;
+                card.style.left = Math.random() * 90 + '%';
+            }, 3000);
+        }
+        function createHearts() {
+            const hearts = document.getElementById('hearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                hearts.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }, 2000);
+        }
+
+        // Celebration function with confetti and UNO cards
+        function celebrate() {
+            const colors = ['#e74c3c', '#3498db', '#f1c40f', '#27ae60', '#9b59b6'];
+            
+            // Create confetti
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    document.body.appendChild(confetti);
+
+                    const piece = document.createElement('div');
+                    piece.className = 'confetti-piece';
+                    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.left = Math.random() * 20 + 'px';
+                    piece.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.appendChild(piece);
+
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 10);
+            }
+
+            // Special UNO celebration cards
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const celebCard = document.createElement('div');
+                    celebCard.className = 'uno-card wild';
+                    celebCard.textContent = 'HAPPY B-DAY!';
+                    celebCard.style.position = 'fixed';
+                    celebCard.style.left = Math.random() * 90 + '%';
+                    celebCard.style.top = '100vh';
+                    celebCard.style.zIndex = '15';
+                    celebCard.style.animation = 'floatCard 4s ease-out forwards';
+                    document.body.appendChild(celebCard);
+
+                    setTimeout(() => {
+                        celebCard.remove();
+                    }, 4000);
+                }, i * 100);
+            }
+
+            // Button animation
+            document.querySelector('.celebration-btn').style.animation = 'pulse 0.5s ease-in-out';
+            setTimeout(() => {
+                document.querySelector('.celebration-btn').style.animation = '';
+            }, 500);
+        }
+
+        // Night sky sparkles
+        function createSparkles() {
+            const sparkleContainer = document.getElementById('sparkles');
+            const sparkleCount = window.innerWidth < 600 ? 40 : 100;
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                sparkle.style.opacity = 0.3 + Math.random() * 0.7;
+                sparkle.style.animationDelay = (Math.random() * 2) + 's';
+                sparkleContainer.appendChild(sparkle);
+            }
+        }
+        window.addEventListener('load', () => {
+            createSparkles();
+            createParticles();
+            createHearts();
+            createUnoCards();
+        });
+
+        // Add shake animation to head
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = shakeKeyframes;
+        document.head.appendChild(shakeStyle);
+        const pulseKeyframes = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+        `;
+        const style = document.createElement('style');
+        style.textContent = pulseKeyframes;
+        document.head.appendChild(style);
+
+        // Initialize animations
+        window.addEventListener('load', () => {
+            createParticles();
+            createHearts();
+            createUnoCards();
+        });
+
+        // Add interactive hover effects to cubes
+        document.querySelectorAll('.image-cube').forEach(cube => {
+            cube.addEventListener('mouseenter', () => {
+                cube.style.animationPlayState = 'paused';
+            });
+            
+            cube.addEventListener('mouseleave', () => {
+                cube.style.animationPlayState = 'running';
+            });
+        });
+
+        // Add parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+    </script>
+    <footer style="width:100%;text-align:center;padding:2rem 0 5rem 0;color:#ffd93d;font-size:1.2rem;opacity:0.85;letter-spacing:1px;">
+        Made with 💖 by Saheli...
+    </footer>
+</body>
+</html>
